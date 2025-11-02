@@ -1,108 +1,103 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ainda tenho sentimentos por vc 💖</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
-
-    :root {
-      --pink1: #ffd6e8;
-      --pink2: #ffeaf2;
-      --accent: #ff4d8d;
-    }
-
-    html, body {
-      height: 100%;
+    * {
       margin: 0;
       padding: 0;
-      font-family: "Comic Sans MS", cursive, sans-serif;
-      background: linear-gradient(135deg, var(--pink1), var(--pink2));
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ffd6e8, #ffeaf2);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      color: #ff4d8d;
+      text-align: center;
+      height: 100vh;
       overflow: hidden;
       user-select: none;
-      -webkit-font-smoothing: antialiased;
+      position: relative;
     }
 
-    /* Gatinhas Hello Kitty */
-    .kitty {
+    /* Fundo Hello Kitty */
+    .bg-img {
       position: absolute;
-      opacity: 0.22; /* um pouco mais visível */
-      pointer-events: none;
-      z-index: 1;
-      filter: drop-shadow(0 0 6px rgba(255,255,255,0.7));
-      transition: transform 20s ease-in-out;
+      width: 120px;
+      opacity: 0.12; /* um pouco mais visível */
+      z-index: 0;
     }
 
-    /* Clique */
-    .click-text {
-      position: absolute;
-      top: 42%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: 'Pacifico', cursive;
-      font-size: 1.5rem;
-      color: #ff69b4;
-      animation: glow 2.2s ease-in-out infinite;
-      z-index: 4;
-    }
-
-    @keyframes glow {
-      0%, 100% { text-shadow: 0 0 8px rgba(255,255,255,0.9); }
-      50% { text-shadow: 0 0 20px rgba(255,182,217,0.95), 0 0 30px rgba(255,255,255,0.9); }
-    }
+    .hello1 { top: 10%; left: 5%; transform: rotate(-10deg); }
+    .hello2 { top: 70%; right: 10%; transform: rotate(15deg); }
+    .hello3 { bottom: 15%; left: 25%; transform: rotate(5deg); }
+    .hello4 { top: 30%; right: 25%; transform: rotate(-8deg); }
 
     /* Texto principal */
+    .click-hint {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.1em;
+      color: #ff80b3;
+      font-style: italic;
+      opacity: 0.8;
+      z-index: 2;
+    }
+
     h1 {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 2.4rem;
-      color: var(--accent);
+      font-size: clamp(1.3em, 4vw, 2.5em);
       animation: pulse 2s infinite;
-      z-index: 5;
+      z-index: 2;
+      padding: 0 10px;
     }
 
     @keyframes pulse {
       0% { transform: translate(-50%, -50%) scale(1); }
-      50% { transform: translate(-50%, -50%) scale(1.06); color: #ff66a3; }
+      50% { transform: translate(-50%, -50%) scale(1.08); color: #ff66a3; }
       100% { transform: translate(-50%, -50%) scale(1); }
     }
 
     /* Frases nos cantos */
     .corner {
       position: absolute;
-      width: 180px;
-      font-size: 1.05rem;
-      color: var(--accent);
-      opacity: 0.85;
+      font-size: clamp(0.8em, 2vw, 1.2em);
+      opacity: 0.9;
+      width: 40%;
       text-shadow: 1px 1px 2px #fff;
-      z-index: 5;
+      z-index: 2;
     }
 
-    .top-left { top: 14px; left: 14px; animation: float 4s ease-in-out infinite; }
-    .top-right { top: 14px; right: 14px; animation: float 5.2s ease-in-out infinite; text-align: right; }
-    .bottom-left { bottom: 14px; left: 14px; animation: float 6s ease-in-out infinite; }
-    .bottom-right { bottom: 14px; right: 14px; animation: float 7s ease-in-out infinite; text-align: right; }
+    .top-left { top: 5%; left: 3%; animation: float 4s ease-in-out infinite; }
+    .top-right { top: 5%; right: 3%; animation: float 5s ease-in-out infinite; text-align: right; }
+    .bottom-left { bottom: 5%; left: 3%; animation: float 6s ease-in-out infinite; }
+    .bottom-right { bottom: 5%; right: 3%; animation: float 7s ease-in-out infinite; text-align: right; }
 
     @keyframes float {
-      0% { transform: translateY(0); }
+      0% { transform: translateY(0px); }
       50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
+      100% { transform: translateY(0px); }
     }
 
-    /* Corações animados */
+    /* Corações subindo */
     .heart {
       position: absolute;
+      color: #ff4d8d;
       font-size: 20px;
-      z-index: 3;
-      animation: rise 6s linear forwards;
+      animation: rise 6s linear infinite;
+      z-index: 1;
     }
 
     @keyframes rise {
-      0% { transform: translateY(100vh) scale(0.85); opacity: 0.9; }
-      100% { transform: translateY(-10vh) scale(1.45); opacity: 0; }
+      0% { transform: translateY(100vh) scale(0.8); opacity: 0.8; }
+      100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
     }
 
     audio { display: none; }
@@ -110,92 +105,55 @@
 </head>
 <body>
 
-  <!-- Texto de clique -->
-  <div class="click-text">Clique em qualquer lugar 💕</div>
+  <!-- Imagens Hello Kitty -->
+  <img src="hello1.png" alt="Hello Kitty" class="bg-img hello1">
+  <img src="hello2.png" alt="Hello Kitty" class="bg-img hello2">
+  <img src="hello1.png" alt="Hello Kitty" class="bg-img hello3">
+  <img src="hello2.png" alt="Hello Kitty" class="bg-img hello4">
 
-  <!-- Título -->
+  <!-- Texto -->
+  <div class="click-hint">✨ clique em qualquer lugar ✨</div>
   <h1>Eu, <b>Lucas Klein Pereira</b>, te amo muito! 💖</h1>
 
-  <!-- Frases -->
+  <!-- Frases românticas -->
   <div class="corner top-left">💌 Eu ainda te amo e quero outra chance</div>
   <div class="corner top-right">💕 Penso em você todos os dias</div>
   <div class="corner bottom-left">🌹 Meu coração ainda é seu</div>
   <div class="corner bottom-right">💘 Volta pra mim, por favor</div>
 
   <!-- Música -->
-  <audio id="bgmusic" loop>
+  <audio id="bgmusic" autoplay loop>
     <source src="see_you_again_instrumental.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    // SVG da Hello Kitty (inline, simples e leve)
-    const kittySVG = `
-      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="100" cy="100" r="70" fill="#fff5f8"/>
-        <polygon points="45,50 75,20 95,60" fill="#fff5f8"/>
-        <polygon points="155,50 125,20 105,60" fill="#fff5f8"/>
-        <ellipse cx="80" cy="100" rx="6" ry="9" fill="#222"/>
-        <ellipse cx="120" cy="100" rx="6" ry="9" fill="#222"/>
-        <ellipse cx="100" cy="118" rx="6" ry="4" fill="#ff8ab0"/>
-        <g stroke="#f0a3c2" stroke-width="3" stroke-linecap="round">
-          <line x1="40" y1="112" x2="80" y2="112" />
-          <line x1="40" y1="122" x2="80" y2="122" />
-          <line x1="160" y1="112" x2="120" y2="112" />
-          <line x1="160" y1="122" x2="120" y2="122" />
-        </g>
-        <g transform="translate(58,60) scale(.5)">
-          <ellipse cx="60" cy="30" rx="28" ry="18" fill="#ff6ea3"/>
-          <ellipse cx="24" cy="30" rx="18" ry="14" fill="#ff6ea3"/>
-          <circle cx="48" cy="30" r="8" fill="#ffd1e3"/>
-        </g>
-      </svg>
-    `;
-
-    // Cria várias gatinhas em posições e tamanhos aleatórios
-    for (let i = 0; i < 10; i++) {
-      const div = document.createElement('div');
-      div.classList.add('kitty');
-      div.innerHTML = kittySVG;
-      div.style.left = Math.random() * 90 + 'vw';
-      div.style.top = Math.random() * 90 + 'vh';
-      const size = 100 + Math.random() * 150;
-      div.style.width = size + 'px';
-      div.style.transform = `rotate(${Math.random() * 40 - 20}deg) scale(${Math.random() < 0.5 ? -1 : 1},1)`;
-      document.body.appendChild(div);
-    }
-
-    // corações flutuando
+    // Corações subindo
     function createHeart() {
-      const d = document.createElement('div');
-      d.className = 'heart';
-      d.textContent = '💖';
-      d.style.left = Math.random() * 100 + 'vw';
-      d.style.fontSize = (Math.random() * 22 + 10) + 'px';
-      d.style.animationDuration = (Math.random() * 3 + 4) + 's';
-      document.body.appendChild(d);
-      setTimeout(() => d.remove(), 8000);
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.textContent = '💖';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+      heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
     }
     setInterval(createHeart, 400);
 
-    // música
-    const music = document.getElementById('bgmusic');
-    music.volume = 0.45;
-
-    function tryPlay() {
-      const p = music.play();
-      if (p !== undefined) {
-        p.then(() => {
-          document.querySelector('.click-text').style.display = 'none';
-        }).catch(() => {});
+    // Música automática com fallback
+    const music = document.getElementById("bgmusic");
+    music.volume = 0.5;
+    document.addEventListener("DOMContentLoaded", () => {
+      const playPromise = music.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          document.body.addEventListener("click", () => {
+            music.play();
+          }, { once: true });
+        });
       }
-    }
-
-    window.addEventListener('load', () => tryPlay());
-    document.body.addEventListener('click', function handler() {
-      tryPlay();
-      document.querySelector('.click-text').style.display = 'none';
-      document.body.removeEventListener('click', handler);
-    }, { once: true });
+    });
   </script>
 </body>
 </html>
+
