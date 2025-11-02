@@ -4,6 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Ainda tenho sentimentos por vc 💖</title>
+
+  <!-- Permite execução de SVGs inline e scripts -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline' 'unsafe-eval';">
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
@@ -22,29 +26,30 @@
       overflow: hidden;
       user-select: none;
       -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      justify-content: center; /* centraliza verticalmente */
+      align-items: center;     /* centraliza horizontalmente */
     }
 
-    /* Gatinhas Hello Kitty */
+    /* Hello Kitty SVG containers */
     .kitty {
       position: absolute;
-      opacity: 0.22; /* um pouco mais visível */
+      opacity: 0.22;
       pointer-events: none;
       z-index: 1;
       filter: drop-shadow(0 0 6px rgba(255,255,255,0.7));
       transition: transform 20s ease-in-out;
     }
 
-    /* Clique */
+    /* Clique em qualquer lugar */
     .click-text {
-      position: absolute;
-      top: 42%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       font-family: 'Pacifico', cursive;
       font-size: 1.5rem;
       color: #ff69b4;
       animation: glow 2.2s ease-in-out infinite;
       z-index: 4;
+      transition: opacity 1s ease;
     }
 
     @keyframes glow {
@@ -54,20 +59,20 @@
 
     /* Texto principal */
     h1 {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       font-size: 2.4rem;
       color: var(--accent);
-      animation: pulse 2s infinite;
+      animation: swing 3s ease-in-out infinite;
       z-index: 5;
+      margin: 10px 0 0 0;
+      text-align: center;
     }
 
-    @keyframes pulse {
-      0% { transform: translate(-50%, -50%) scale(1); }
-      50% { transform: translate(-50%, -50%) scale(1.06); color: #ff66a3; }
-      100% { transform: translate(-50%, -50%) scale(1); }
+    @keyframes swing {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(2deg); }
+      50% { transform: rotate(0deg); }
+      75% { transform: rotate(-2deg); }
+      100% { transform: rotate(0deg); }
     }
 
     /* Frases nos cantos */
@@ -79,18 +84,13 @@
       opacity: 0.85;
       text-shadow: 1px 1px 2px #fff;
       z-index: 5;
+      animation: swing 4s ease-in-out infinite;
     }
 
-    .top-left { top: 14px; left: 14px; animation: float 4s ease-in-out infinite; }
-    .top-right { top: 14px; right: 14px; animation: float 5.2s ease-in-out infinite; text-align: right; }
-    .bottom-left { bottom: 14px; left: 14px; animation: float 6s ease-in-out infinite; }
-    .bottom-right { bottom: 14px; right: 14px; animation: float 7s ease-in-out infinite; text-align: right; }
-
-    @keyframes float {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
-    }
+    .top-left { top: 14px; left: 14px; animation-delay: 0.2s; }
+    .top-right { top: 14px; right: 14px; animation-delay: 0.5s; text-align: right; }
+    .bottom-left { bottom: 14px; left: 14px; animation-delay: 0.8s; }
+    .bottom-right { bottom: 14px; right: 14px; animation-delay: 1.1s; text-align: right; }
 
     /* Corações animados */
     .heart {
@@ -110,25 +110,20 @@
 </head>
 <body>
 
-  <!-- Texto de clique -->
   <div class="click-text">Clique em qualquer lugar 💕</div>
-
-  <!-- Título -->
   <h1>Eu, <b>Lucas Klein Pereira</b>, te amo muito! 💖</h1>
 
-  <!-- Frases -->
   <div class="corner top-left">💌 Eu ainda te amo e quero outra chance</div>
   <div class="corner top-right">💕 Penso em você todos os dias</div>
   <div class="corner bottom-left">🌹 Meu coração ainda é seu</div>
   <div class="corner bottom-right">💘 Volta pra mim, por favor</div>
 
-  <!-- Música -->
   <audio id="bgmusic" loop>
     <source src="see_you_again_instrumental.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    // SVG da Hello Kitty (inline, simples e leve)
+    // SVG Hello Kitty inline
     const kittySVG = `
       <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <circle cx="100" cy="100" r="70" fill="#fff5f8"/>
@@ -151,7 +146,7 @@
       </svg>
     `;
 
-    // Cria várias gatinhas em posições e tamanhos aleatórios
+    // Criar várias gatinhas
     for (let i = 0; i < 10; i++) {
       const div = document.createElement('div');
       div.classList.add('kitty');
@@ -164,7 +159,7 @@
       document.body.appendChild(div);
     }
 
-    // corações flutuando
+    // Corações flutuando
     function createHeart() {
       const d = document.createElement('div');
       d.className = 'heart';
@@ -177,7 +172,7 @@
     }
     setInterval(createHeart, 400);
 
-    // música
+    // Música
     const music = document.getElementById('bgmusic');
     music.volume = 0.45;
 
@@ -185,7 +180,9 @@
       const p = music.play();
       if (p !== undefined) {
         p.then(() => {
-          document.querySelector('.click-text').style.display = 'none';
+          const txt = document.querySelector('.click-text');
+          txt.style.opacity = '0';
+          setTimeout(() => txt.remove(), 1000);
         }).catch(() => {});
       }
     }
@@ -193,7 +190,6 @@
     window.addEventListener('load', () => tryPlay());
     document.body.addEventListener('click', function handler() {
       tryPlay();
-      document.querySelector('.click-text').style.display = 'none';
       document.body.removeEventListener('click', handler);
     }, { once: true });
   </script>
