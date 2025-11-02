@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ainda tenho sentimentos por vc 💖</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+    :root {
+      --pink1: #ffd6e8;
+      --pink2: #ffeaf2;
+      --accent: #ff4d8d;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background: linear-gradient(135deg, var(--pink1), var(--pink2));
+      overflow: hidden;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Gatinhas Hello Kitty */
+    .kitty {
+      position: absolute;
+      opacity: 0.22; /* um pouco mais visível */
+      pointer-events: none;
+      z-index: 1;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,0.7));
+      transition: transform 20s ease-in-out;
+    }
+
+    /* Clique */
+    .click-text {
+      position: absolute;
+      top: 42%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Pacifico', cursive;
+      font-size: 1.5rem;
+      color: #ff69b4;
+      animation: glow 2.2s ease-in-out infinite;
+      z-index: 4;
+    }
+
+    @keyframes glow {
+      0%, 100% { text-shadow: 0 0 8px rgba(255,255,255,0.9); }
+      50% { text-shadow: 0 0 20px rgba(255,182,217,0.95), 0 0 30px rgba(255,255,255,0.9); }
+    }
+
+    /* Texto principal */
+    h1 {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2.4rem;
+      color: var(--accent);
+      animation: pulse 2s infinite;
+      z-index: 5;
+    }
+
+    @keyframes pulse {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.06); color: #ff66a3; }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+
+    /* Frases nos cantos */
+    .corner {
+      position: absolute;
+      width: 180px;
+      font-size: 1.05rem;
+      color: var(--accent);
+      opacity: 0.85;
+      text-shadow: 1px 1px 2px #fff;
+      z-index: 5;
+    }
+
+    .top-left { top: 14px; left: 14px; animation: float 4s ease-in-out infinite; }
+    .top-right { top: 14px; right: 14px; animation: float 5.2s ease-in-out infinite; text-align: right; }
+    .bottom-left { bottom: 14px; left: 14px; animation: float 6s ease-in-out infinite; }
+    .bottom-right { bottom: 14px; right: 14px; animation: float 7s ease-in-out infinite; text-align: right; }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* Corações animados */
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      z-index: 3;
+      animation: rise 6s linear forwards;
+    }
+
+    @keyframes rise {
+      0% { transform: translateY(100vh) scale(0.85); opacity: 0.9; }
+      100% { transform: translateY(-10vh) scale(1.45); opacity: 0; }
+    }
+
+    audio { display: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Texto de clique -->
+  <div class="click-text">Clique em qualquer lugar 💕</div>
+
+  <!-- Título -->
+  <h1>Eu, <b>Lucas Klein Pereira</b>, te amo muito! 💖</h1>
+
+  <!-- Frases -->
+  <div class="corner top-left">💌 Eu ainda te amo e quero outra chance</div>
+  <div class="corner top-right">💕 Penso em você todos os dias</div>
+  <div class="corner bottom-left">🌹 Meu coração ainda é seu</div>
+  <div class="corner bottom-right">💘 Volta pra mim, por favor</div>
+
+  <!-- Música -->
+  <audio id="bgmusic" loop>
+    <source src="see_you_again_instrumental.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // SVG da Hello Kitty (inline, simples e leve)
+    const kittySVG = `
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="70" fill="#fff5f8"/>
+        <polygon points="45,50 75,20 95,60" fill="#fff5f8"/>
+        <polygon points="155,50 125,20 105,60" fill="#fff5f8"/>
+        <ellipse cx="80" cy="100" rx="6" ry="9" fill="#222"/>
+        <ellipse cx="120" cy="100" rx="6" ry="9" fill="#222"/>
+        <ellipse cx="100" cy="118" rx="6" ry="4" fill="#ff8ab0"/>
+        <g stroke="#f0a3c2" stroke-width="3" stroke-linecap="round">
+          <line x1="40" y1="112" x2="80" y2="112" />
+          <line x1="40" y1="122" x2="80" y2="122" />
+          <line x1="160" y1="112" x2="120" y2="112" />
+          <line x1="160" y1="122" x2="120" y2="122" />
+        </g>
+        <g transform="translate(58,60) scale(.5)">
+          <ellipse cx="60" cy="30" rx="28" ry="18" fill="#ff6ea3"/>
+          <ellipse cx="24" cy="30" rx="18" ry="14" fill="#ff6ea3"/>
+          <circle cx="48" cy="30" r="8" fill="#ffd1e3"/>
+        </g>
+      </svg>
+    `;
+
+    // Cria várias gatinhas em posições e tamanhos aleatórios
+    for (let i = 0; i < 10; i++) {
+      const div = document.createElement('div');
+      div.classList.add('kitty');
+      div.innerHTML = kittySVG;
+      div.style.left = Math.random() * 90 + 'vw';
+      div.style.top = Math.random() * 90 + 'vh';
+      const size = 100 + Math.random() * 150;
+      div.style.width = size + 'px';
+      div.style.transform = `rotate(${Math.random() * 40 - 20}deg) scale(${Math.random() < 0.5 ? -1 : 1},1)`;
+      document.body.appendChild(div);
+    }
+
+    // corações flutuando
+    function createHeart() {
+      const d = document.createElement('div');
+      d.className = 'heart';
+      d.textContent = '💖';
+      d.style.left = Math.random() * 100 + 'vw';
+      d.style.fontSize = (Math.random() * 22 + 10) + 'px';
+      d.style.animationDuration = (Math.random() * 3 + 4) + 's';
+      document.body.appendChild(d);
+      setTimeout(() => d.remove(), 8000);
+    }
+    setInterval(createHeart, 400);
+
+    // música
+    const music = document.getElementById('bgmusic');
+    music.volume = 0.45;
+
+    function tryPlay() {
+      const p = music.play();
+      if (p !== undefined) {
+        p.then(() => {
+          document.querySelector('.click-text').style.display = 'none';
+        }).catch(() => {});
+      }
+    }
+
+    window.addEventListener('load', () => tryPlay());
+    document.body.addEventListener('click', function handler() {
+      tryPlay();
+      document.querySelector('.click-text').style.display = 'none';
+      document.body.removeEventListener('click', handler);
+    }, { once: true });
+  </script>
+</body>
+</html>
